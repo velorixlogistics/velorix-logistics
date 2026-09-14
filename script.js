@@ -25,19 +25,60 @@ const db = getFirestore(app);
 console.log("Velorix Logistics Firebase Connected");
 
 
-// Tracking Button
-document.getElementById("trackBtn").addEventListener("click", function(){
+// Import Firestore functions
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-    const trackingNumber = document.getElementById("trackingNumber").value.trim();
+
+// Tracking Button
+document.getElementById("trackBtn").addEventListener("click", async function(){
+
+    const trackingNumber = document
+        .getElementById("trackingNumber")
+        .value
+        .trim();
+
 
     if(trackingNumber === ""){
         alert("Please enter your tracking number.");
         return;
     }
 
-    alert(
-        "Tracking request received for: " + trackingNumber +
-        "\n\nTracking system is connected."
-    );
 
+    try {
+
+        const shipmentRef = doc(db, "shipments", trackingNumber);
+
+        const shipmentSnap = await getDoc(shipmentRef);
+
+
+        if(shipmentSnap.exists()){
+
+            const shipment = shipmentSnap.data();
+
+
+            alert(
+                "Shipment Found!\n\n" +
+                "Tracking Number: " + shipment.trackingNumber +
+                "\nStatus: " + shipment.status +
+                "\nLocation: " + shipment.location +
+                "\nReceiver: " + shipment.receiver +
+                "\nDate: " + shipment.date
+            );
+
+
+        } else {
+
+            alert("No shipment found with this tracking number.");
+
+        }
+
+
+    } catch(error){
+
+        console.error(error);
+        alert("Unable to track shipment right now.");
+
+    }
+
+});
 });
