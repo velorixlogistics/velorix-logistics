@@ -20,15 +20,15 @@ const db = getFirestore(app);
 console.log("Velorix Logistics Firebase Connected");
 
 
-document.getElementById("trackBtn").addEventListener("click", async function(){
+document.getElementById("trackBtn").addEventListener("click", async () => {
 
     const trackingNumber = document
-    .getElementById("trackingNumber")
-    .value
-    .trim();
+        .getElementById("trackingNumber")
+        .value
+        .trim();
 
 
-    if(trackingNumber === ""){
+    if (!trackingNumber) {
         alert("Please enter your tracking number.");
         return;
     }
@@ -41,32 +41,18 @@ document.getElementById("trackBtn").addEventListener("click", async function(){
         const shipmentSnap = await getDoc(shipmentRef);
 
 
-        if(shipmentSnap.exists()){
+        if (shipmentSnap.exists()) {
 
             const shipment = shipmentSnap.data();
 
 
             document.getElementById("trackingResult").style.display = "block";
 
-
-            document.getElementById("resultTracking").textContent =
-            shipment.trackingNumber;
-
-
-            document.getElementById("resultStatus").textContent =
-            shipment.status;
-
-
-            document.getElementById("resultLocation").textContent =
-            shipment.location;
-
-
-            document.getElementById("resultReceiver").textContent =
-            shipment.receiver;
-
-
-            document.getElementById("resultDate").textContent =
-            shipment.date;
+            document.getElementById("resultTracking").textContent = shipment.trackingNumber;
+            document.getElementById("resultStatus").textContent = shipment.status;
+            document.getElementById("resultLocation").textContent = shipment.location;
+            document.getElementById("resultReceiver").textContent = shipment.receiver;
+            document.getElementById("resultDate").textContent = shipment.date;
 
 
         } else {
@@ -76,10 +62,9 @@ document.getElementById("trackBtn").addEventListener("click", async function(){
         }
 
 
-    } catch(error){
+    } catch (error) {
 
         console.error("Tracking error:", error);
-
         alert("Unable to track shipment.");
 
     }
