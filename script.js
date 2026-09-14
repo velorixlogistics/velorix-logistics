@@ -36,7 +36,7 @@ document.getElementById("trackBtn").addEventListener("click", async function(){
 
     try {
 
-        const shipmentRef = doc(db, "shipments", trackingNumber);
+        const shipmentRef = doc(db, "shipment", trackingNumber);
 
         const shipmentSnap = await getDoc(shipmentRef);
 
