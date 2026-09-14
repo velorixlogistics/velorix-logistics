@@ -56,6 +56,71 @@ document.getElementById("trackBtn").addEventListener("click", async function(){
             const shipment = shipmentSnap.data();
 
 
+            // Show tracking result box
+            document.getElementById("trackingResult").style.display = "block";
+
+
+            // Insert shipment information
+            document.getElementById("resultTracking").textContent =
+            shipment.trackingNumber;
+
+
+            document.getElementById("resultStatus").textContent =
+            shipment.status;
+
+
+            document.getElementById("resultLocation").textContent =
+            shipment.location;
+
+
+            document.getElementById("resultReceiver").textContent =
+            shipment.receiver;
+
+
+            document.getElementById("resultDate").textContent =
+            shipment.date;
+
+
+        } else {
+
+            alert("No shipment found with this tracking number.");
+
+        }
+
+
+    } catch(error){
+
+        console.error("Tracking error:", error);
+
+        alert("Unable to track shipment at the moment.");
+
+    }
+
+});
+    const trackingNumber = document
+        .getElementById("trackingNumber")
+        .value
+        .trim();
+
+
+    if(trackingNumber === ""){
+        alert("Please enter your tracking number.");
+        return;
+    }
+
+
+    try {
+
+        const shipmentRef = doc(db, "shipments", trackingNumber);
+
+        const shipmentSnap = await getDoc(shipmentRef);
+
+
+        if(shipmentSnap.exists()){
+
+            const shipment = shipmentSnap.data();
+
+
             alert(
                 "Shipment Found!\n\n" +
                 "Tracking Number: " + shipment.trackingNumber +
