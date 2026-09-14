@@ -20,7 +20,7 @@ const db = getFirestore(app);
 console.log("Velorix Logistics Firebase Connected");
 
 
-document.getElementById("trackBtn").addEventListener("click", async () => {
+document.getElementById("trackBtn").addEventListener("click", async function(){
 
     const trackingNumber = document
         .getElementById("trackingNumber")
@@ -28,7 +28,7 @@ document.getElementById("trackBtn").addEventListener("click", async () => {
         .trim();
 
 
-    if (!trackingNumber) {
+    if(trackingNumber === ""){
         alert("Please enter your tracking number.");
         return;
     }
@@ -41,18 +41,18 @@ document.getElementById("trackBtn").addEventListener("click", async () => {
         const shipmentSnap = await getDoc(shipmentRef);
 
 
-        if (shipmentSnap.exists()) {
+        if(shipmentSnap.exists()){
 
             const shipment = shipmentSnap.data();
 
-
-            document.getElementById("trackingResult").style.display = "block";
-
-            document.getElementById("resultTracking").textContent = shipment.trackingNumber;
-            document.getElementById("resultStatus").textContent = shipment.status;
-            document.getElementById("resultLocation").textContent = shipment.location;
-            document.getElementById("resultReceiver").textContent = shipment.receiver;
-            document.getElementById("resultDate").textContent = shipment.date;
+            alert(
+                "Shipment Found!\n\n" +
+                "Tracking Number: " + shipment.trackingNumber +
+                "\nStatus: " + shipment.status +
+                "\nLocation: " + shipment.location +
+                "\nReceiver: " + shipment.receiver +
+                "\nDate: " + shipment.date
+            );
 
 
         } else {
@@ -62,10 +62,10 @@ document.getElementById("trackBtn").addEventListener("click", async () => {
         }
 
 
-    } catch (error) {
+    } catch(error){
 
-        console.error("Tracking error:", error);
-        alert("Unable to track shipment.");
+        console.error(error);
+        alert("Unable to track shipment right now.");
 
     }
 
