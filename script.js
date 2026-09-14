@@ -23,7 +23,7 @@ const db = getFirestore(app);
 
 
 console.log("Velorix Logistics Firebase Connected");
-
+console.log("Database:", db);
 
 // Import Firestore functions
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
